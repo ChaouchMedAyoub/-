@@ -1,0 +1,71 @@
+:root {
+    --primary: #4f46e5; --secondary: #0f172a; --accent: #ec4899;
+    --bg: #f8fafc; --text: #334155; --gray: #94a3b8; --shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+}
+
+body { font-family: 'Tajawal', sans-serif; background: var(--bg); color: var(--text); margin: 0; direction: rtl; }
+
+/* Header & Top Bar */
+.top-bar { background: var(--secondary); color: white; padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; }
+.search-wrapper input { background: rgba(255,255,255,0.1); border: none; padding: 8px 35px; border-radius: 20px; color: white; width: 200px; }
+header { background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); padding: 15px 5%; display: flex; justify-content: space-between; position: sticky; top:0; z-index: 1000; border-bottom: 1px solid #eee; }
+.logo { font-size: 1.5rem; font-weight: 800; color: var(--secondary); }
+.logo span { color: var(--primary); }
+.nav-links { list-style: none; display: flex; gap: 20px; align-items: center; margin: 0; }
+.nav-links a { text-decoration: none; color: var(--text); font-weight: 600; }
+.cart-btn-wrapper { position: relative; font-size: 1.3rem; color: var(--primary) !important; }
+#cart-badge { position: absolute; top: -10px; right: -10px; background: var(--accent); color: white; padding: 2px 6px; border-radius: 50%; font-size: 0.7rem; }
+
+/* Categories */
+.category-filters { display: flex; justify-content: center; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+.cat-btn { border: 1px solid #ddd; background: white; padding: 8px 18px; border-radius: 20px; cursor: pointer; font-family: 'Tajawal'; transition: 0.3s; }
+.cat-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+/* Grid & Cards */
+.products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 25px; padding: 30px 5%; }
+.card { background: white; border-radius: 15px; overflow: hidden; box-shadow: var(--shadow); transition: 0.3s; position: relative; }
+.card:hover { transform: translateY(-5px); }
+.card-img { width: 100%; height: 220px; object-fit: cover; }
+.card-body { padding: 15px; }
+.card-price { color: var(--primary); font-weight: 800; font-size: 1.2rem; }
+.btn-add { width: 100%; background: var(--secondary); color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; margin-top: 10px; font-family: 'Tajawal'; }
+
+/* Layouts */
+.checkout-layout { display: flex; gap: 30px; padding: 40px 5%; align-items: flex-start; }
+.cart-list-container, .payment-summary-card { background: white; padding: 25px; border-radius: 16px; box-shadow: var(--shadow); }
+.cart-list-container { flex: 2; } .payment-summary-card { flex: 1; position: sticky; top: 100px; }
+.payment-inputs input, textarea, select { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 8px; font-family: 'Tajawal'; }
+.btn-gradient { background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; }
+
+/* Toasts */
+#toast-container { position: fixed; bottom: 20px; left: 20px; z-index: 5000; }
+.toast { background: white; padding: 15px 25px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-top: 10px; border-right: 5px solid var(--primary); animation: slideIn 0.3s forwards; }
+@keyframes slideIn { from { transform: translateX(-100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+.hidden { display: none !important; }
+.fade-in { animation: fadeIn 0.5s; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@media (max-width: 900px) { .checkout-layout { flex-direction: column; } }
+.cat-btn {
+    background: white;
+    border: 1px solid #e2e8f0;
+    padding: 8px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-family: 'Tajawal';
+    font-weight: 600;
+    transition: 0.3s;
+    color: var(--text);
+}
+
+.cat-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+.cat-btn:hover:not(.active) {
+    border-color: var(--primary);
+    color: var(--primary);
+}
