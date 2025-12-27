@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر النخبة برو | 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="toast-container"></div>
+
+    <div class="top-bar">
+        <div class="sync-status">
+            <i class="fas fa-sync-alt fa-spin" id="sync-icon"></i> 
+            مزامنة البيانات: <span id="sync-timer">5</span>ث
+        </div>
+        <div class="search-wrapper">
+            <i class="fas fa-search"></i>
+            <input type="text" id="main-search" placeholder="ابحث عن منتج..." onkeyup="searchProducts()">
+        </div>
+    </div>
+
+    <header>
+        <div class="logo">
+            <i class="fas fa-cube"></i> النخبة<span>PRO</span>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#" onclick="switchTab('store')" class="active-link" id="btn-store"><i class="fas fa-store"></i> المتجر</a></li>
+                <li id="seller-menu-item" class="hidden"><a href="#" onclick="switchTab('seller')"><i class="fas fa-chart-line"></i> لوحة التحكم</a></li>
+                <li><a href="#" onclick="switchTab('cart')" class="cart-btn-wrapper">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span id="cart-badge">0</span>
+                </a></li>
+                <li id="login-menu-item"><a href="#" onclick="openModal('login-modal')" class="btn-login">دخول</a></li>
+                <li id="logout-menu-item" class="hidden"><a href="#" onclick="logout()" class="btn-logout">خروج</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="store-section" class="tab-content fade-in">
+           <div class="hero-section">
+    <h1>اكتشف أحدث العروض</h1>
+    <p>منتجات حصرية بجودة عالية وتوصيل سريع</p>
+    
+    <div class="category-filters" style="display: flex; justify-content: center; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
+        <button class="cat-btn active" onclick="filterCategory('all', this)">الكل</button>
+        <button class="cat-btn" onclick="filterCategory('electronics', this)">📱 إلكترونيات</button>
+        <button class="cat-btn" onclick="filterCategory('fashion', this)">👕 ملابس</button>
+        <button class="cat-btn" onclick="filterCategory('home', this)">🏠 منزل</button>
+    </div>
+</div>
+            <div id="products-grid" class="products-grid"></div>
+        </section>
+
+        <section id="seller-section" class="tab-content hidden fade-in">
+            <div class="dashboard-container">
+                <div class="panel-header"><h2><i class="fas fa-plus-circle"></i> إضافة منتج جديد</h2></div>
+                <div class="panel-body">
+                    <div class="upload-zone">
+                        <input type="file" id="prod-image" accept="image/*" hidden onchange="previewImage(this)">
+                        <label for="prod-image" id="img-preview-area">
+                            <i class="fas fa-cloud-upload-alt fa-3x"></i>
+                            <p>ارفع صورة المنتج</p>
+                        </label>
+                    </div>
+                 <div class="inputs-grid">
+    <div class="input-group">
+        <label>اسم المنتج</label>
+        <input type="text" id="prod-name" placeholder="مثلاً: ساعة آبل">
+    </div>
+    <div class="input-group">
+        <label>السعر ($)</label>
+        <input type="number" id="prod-price" placeholder="0.00">
+    </div>
+    <div class="input-group" style="grid-column: span 2;">
+        <label>فئة المنتج</label>
+        <select id="prod-category" style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; font-family: 'Tajawal';">
+            <option value="" disabled selected>اختر القسم المناسب...</option>
+            <option value="electronics">📱 إلكترونيات</option>
+            <option value="fashion">👕 ملابس</option>
+            <option value="home">🏠 مستلزمات منزل</option>
+        </select>
+    </div>
+</div>
+                        <div class="input-group">
+                            <label>السعر ($)</label>
+                            <input type="number" id="prod-price" placeholder="0.00">
+                        </div>
+                        <div class="input-group full-width">
+                            <label>الفئة</label>
+                            <select id="prod-category">
+                                <option value="" disabled selected>اختر الفئة...</option>
+                                <option value="electronics">📱 إلكترونيات</option>
+                                <option value="fashion">👕 ملابس</option>
+                                <option value="home">🏠 منزل</option>
+                                <option value="perfumes">✨ عطور</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="btn-gradient" onclick="addNewProductToStore()">نشر المنتج</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="cart-section" class="tab-content hidden fade-in">
+            <div class="checkout-layout">
+                <div class="cart-list-container">
+                    <h3><i class="fas fa-shopping-cart"></i> السلة</h3>
+                    <div id="cart-display-list" class="scrollable-list"></div>
+                </div>
+                <div class="payment-summary-card">
+                    <h3>تفاصيل الدفع</h3>
+                    <div class="summary-row total"><span>الإجمالي:</span> <span id="total-price">0 $</span></div>
+                    <div class="payment-selector">
+                        <label class="pay-option" onclick="setPayment('card')">
+                            <input type="radio" name="pay">
+                            <div class="pay-content"><i class="fab fa-cc-visa"></i> <span>بطاقة</span></div>
+                        </label>
+                        <label class="pay-option" onclick="setPayment('cash')">
+                            <input type="radio" name="pay">
+                            <div class="pay-content"><i class="fas fa-truck"></i> <span>كاش</span></div>
+                        </label>
+                    </div>
+                    <div id="form-card" class="payment-inputs hidden">
+                        <input type="text" id="c-num" placeholder="رقم البطاقة (16 رقم)">
+                        <div class="row" style="display:flex; gap:10px;">
+                            <input type="text" id="c-date" placeholder="MM/YY">
+                            <input type="text" id="c-cvv" placeholder="CVV">
+                        </div>
+                    </div>
+                    <div id="form-cash" class="payment-inputs hidden">
+                        <input type="text" id="u-name" placeholder="الاسم الكامل">
+                        <input type="tel" id="u-phone" placeholder="رقم الهاتف">
+                        <textarea id="u-addr" placeholder="عنوان التوصيل"></textarea>
+                    </div>
+                    <button class="btn-checkout" onclick="confirmPurchase()">تأكيد الشراء</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="login-modal" class="modal-overlay hidden">
+        <div class="modal-box zoom-in">
+            <span class="close-btn" onclick="closeModal('login-modal')">&times;</span>
+            <h3>دخول الإدارة</h3>
+            <input type="email" id="login-email" placeholder="admin@gmail.adm">
+            <button class="btn-gradient full-width" onclick="login()">دخول</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
